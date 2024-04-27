@@ -1,3 +1,31 @@
+<?php
+session_start(); // Resume session
+//cash the post response
+header("Cache-Control: max-age=86400");
+
+// Check if admin session is not set, redirect to login
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
+    // Redirect the user to the login page
+    header("Location: /login");
+    exit();
+}
+if (isset($_POST["submit"])) { 
+    // Check if the form is submitted
+    $_SESSION['admin'] = false;
+    if(isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+    // Unset the session variable
+    unset($_SESSION['admin']);
+
+    // Destroy the session
+    session_destroy();
+    }
+
+    // Redirect the user to the login page
+    header("Location: /login");
+    exit();
+
+ }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,13 +125,10 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                            <form method="post" action="#">
-                                <button style="background-color: transparent; border: none; " class="button w-100"
+                            <form method="post" class="h-25 w-100 p-2" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                <button style="background-color: transparent; border: none;" class="button h-25 w-100"
                                     name="submit" type="submit">
-                                    <a class="dropdown-item">
-                                        <i class="mdi mdi-logout text-primary"></i>
-                                        Logout
-                                    </a>
+                                   Logout
                                 </button>
                             </form>
 

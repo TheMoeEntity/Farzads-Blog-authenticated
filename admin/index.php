@@ -75,13 +75,10 @@ if (isset($_POST["submit"])) {
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                            <form method="post" action="#">
-                                <button style="background-color: transparent; border: none; " class="button w-100"
+                           <form method="post" class="h-25 w-100 p-2" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                <button style="background-color: transparent; border: none;" class="button h-25 w-100"
                                     name="submit" type="submit">
-                                    <a class="dropdown-item">
-                                        <i class="mdi mdi-logout text-primary"></i>
-                                        Logout
-                                    </a>
+                                   Logout
                                 </button>
                             </form>
 
@@ -101,14 +98,14 @@ if (isset($_POST["submit"])) {
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/">
-                            <i class="mdi mdi-home menu-icon" style="color:#4D84FF;"></i>
-                            <span class="menu-title active" style="color:#4D84FF;">Dashboard</span>
+                            <i class="mdi mdi-home menu-icon active"></i>
+                            <span class="menu-title active">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/create/">
-                            <i class="mdi mdi-border-color menu-icon"></i>
-                            <span class="menu-title">Create post</span>
+                            <i class="mdi mdi-border-color menu-icon text-dark"></i>
+                            <span class="menu-title text-dark">Create post</span>
                         </a>
                     </li>
                 </ul>
