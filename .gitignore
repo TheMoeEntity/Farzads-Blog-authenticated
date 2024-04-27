@@ -1,4 +1,3 @@
-/webalizer
-.vscode
+.vscode/
+webalizer/
 applications.html
-bitnami.css
