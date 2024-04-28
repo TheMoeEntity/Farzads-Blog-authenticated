@@ -52,6 +52,26 @@ if (isset($_POST["submit"])) {
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
     </div>
+    <!-- modal -->
+    <div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePostModalLabel">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="post-error">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-warning text-white" id="updateActionBtn">Publish</button>
+                    <button id="adminDeleteAction" type="button" class="btn btn-danger text-white">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -75,10 +95,13 @@ if (isset($_POST["submit"])) {
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                           <form method="post" class="h-25 w-100 p-2" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                                <button style="background-color: transparent; border: none;" class="button h-25 w-100"
+                            <form method="post" action="#">
+                                <button style="background-color: transparent; border: none; " class="button w-100"
                                     name="submit" type="submit">
-                                   Logout
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-logout text-primary"></i>
+                                        Logout
+                                    </a>
                                 </button>
                             </form>
 
@@ -98,14 +121,14 @@ if (isset($_POST["submit"])) {
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="/">
-                            <i class="mdi mdi-home menu-icon active"></i>
-                            <span class="menu-title active">Dashboard</span>
+                            <i class="mdi mdi-home menu-icon" style="color:#4D84FF;"></i>
+                            <span class="menu-title active" style="color:#4D84FF;">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/create/">
-                            <i class="mdi mdi-border-color menu-icon text-dark"></i>
-                            <span class="menu-title text-dark">Create post</span>
+                            <i class="mdi mdi-border-color menu-icon"></i>
+                            <span class="menu-title">Create post</span>
                         </a>
                     </li>
                 </ul>
@@ -139,7 +162,8 @@ if (isset($_POST["submit"])) {
                                 </div>
                                 <div class="col-12 col-md-4 col-lg-3">
                                     <input style="border:1px solid #D8D8D8; border-radius: 20px; padding: 6px 15px;"
-                                        type="search" placeholder="Search" class="bg-transparent w-100 " name="" id="searchInput">
+                                        type="search" placeholder="Search" class="bg-transparent w-100 " name=""
+                                        id="searchInput">
                                 </div>
                             </div>
                         </div>
@@ -152,9 +176,36 @@ if (isset($_POST["submit"])) {
                                         <th scope="col">Status</th>
                                         <th scope="col">Date </th>
                                         <th scope="col">Comments</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="posts-table">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row d-none bg-light mt-5 pt-3 d-flex flex-column gap-2" id="pendingComments">
+                        <div class="d-flex flex-column ">
+                            <h4 class='mb-2 p-2 px-3'> Pending comments <b>*</b></h4>
+                            <span class="text-danger p-3" id="postErrorMessage"></span>
+
+                        </div>
+                        <div class="pt-3col-md-12 stretch-card card-body bg-white table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Comment</th>
+                                        <th scope="col">Post</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Date </th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="commentsTableContainer">
                                 </tbody>
                             </table>
                         </div>

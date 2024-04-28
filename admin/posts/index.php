@@ -215,7 +215,7 @@ if (isset($_POST["submit"])) {
 
                                     <div class="contact-form article-comment">
                                         <h4>Leave a Reply</h4>
-                                        <form id="contact-form">
+                                        <form id="contact-form" id="postComments">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">

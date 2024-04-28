@@ -28,7 +28,6 @@ if (isset($_POST["submit"])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -72,12 +71,14 @@ if (isset($_POST["submit"])) {
               <span class="nav-profile-name">Farzad Nosrati</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <form method="post" class="h-25 w-100 p-2" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                  <button style="background-color: transparent; border: none;" class="button h-25 w-100"
-                      name="submit" type="submit">
-                      Logout
-                  </button>
-              </form>
+              <a class="dropdown-item">
+                <i class="mdi mdi-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
+                <i class="mdi mdi-logout text-primary"></i>
+                Logout
+              </a>
             </div>
           </li>
         </ul>
@@ -115,17 +116,17 @@ if (isset($_POST["submit"])) {
                 <div class="card-body">
                   <h4 class="card-title">Create Post</h4>
                   <form class="forms-sample" id="create-post-form">
-                    <div class="form-group">
+                    <div class="form-group d-none">
                       <label for="exampleInputName1">Author</label>
                       <input type="text" class="form-control" value="Farzad" id="exampleInputName1" placeholder="Name">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">Title</label>
-                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                      <input type="text" class="form-control" id="" placeholder="Enter a title for post">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">Sub Title</label>
-                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                      <input type="text" class="form-control" id="" placeholder="Enter a sub title for post">
                     </div>
                     <div class="form-group">
                       <label for="exampleTextarea1">Textarea</label>
