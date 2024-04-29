@@ -52,6 +52,12 @@ export class Helpers {
         }
         return false
     }
+    static validatePhone = (phone) => {
+        if (/^\d{3}-\d{3}-\d{4}$/.test(phone)) {
+            return true
+        }
+        return false
+    }
     static getDate = (date_addeds) => {
         const postDate = date_addeds.split(' ')
         return postDate[0]
@@ -66,6 +72,16 @@ export class Helpers {
                 row.style.display = 'none'; // Hide the row if it doesn't contain the search term
             }
         });
+    }
+    static commentsNumber = (count) => {
+        switch (count) {
+            case "0":
+                return "No comments yet";
+            case "1":
+                return "1 comment";
+            default:
+                return count + " comments";
+        }
     }
     static setTableRow = (posts, getDate, tableContainer, produceInnerHTML) => {
         // Clear existing table rows before appending new ones
@@ -83,8 +99,8 @@ export class Helpers {
                 </div>
             </td>
             <td style="min-width:130px;">${this.formatDate(getDate(post.date_added))}</td>
-            <td style="min-width:130px;">
-              ${(post.comments ? post.comments : randomComments) + " comment(s)"}   
+            <td style="min-width:150px;">
+                ${this.commentsNumber(post.comments)}
             </td>
             <td>
                 <div class="nav-item dropdown me-1">
@@ -187,6 +203,36 @@ export class Helpers {
         }
         const formFields = { name, email, comment }
         return [isError, formFields]
+
+    }
+    static validateContactFormFields = (event, errMessage) => {
+        event.preventDefault()
+        const name = event.target[0].value
+        const email = event.target[1].value
+        const phone = event.target[2].value
+        const message = event.target[3].value
+        let isError = false
+        const validEmail = this.validateEmail(email)
+        const validPhone = this.validatePhone(phone)
+        if (name.trim() === '') {
+            errMessage.textContent = 'Name cannot be empty'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        } else if (!validEmail) {
+            errMessage.textContent = 'Enter a valid email'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        } else if (phone.trim() === '') {
+            errMessage.textContent = 'Enter a valid phone number'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        } else if (message.trim() === '' || message.length < 10) {
+            errMessage.textContent = 'Message cannot be empty or less than 10 characters'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        }
+        const contactFormFields = { name, email, phone, message }
+        return [isError, contactFormFields]
 
     }
 }

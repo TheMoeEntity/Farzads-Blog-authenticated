@@ -4,7 +4,23 @@ $isAdminLogged = false;
 function isAdminLoggedIn() {
     return isset($_SESSION['admin']) && $_SESSION['admin'] === true;
 }
-$isAdminLogged = isAdminLoggedIn()
+$isAdminLogged = isAdminLoggedIn();
+if (isset($_POST["submit"])) { 
+    // Check if the form is submitted
+    $_SESSION['admin'] = false;
+    if(isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
+    // Unset the session variable
+    unset($_SESSION['admin']);
+
+    // Destroy the session
+    session_destroy();
+    }
+
+    // Redirect the user to the login page
+    header("Location: /login");
+    exit();
+
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +44,7 @@ $isAdminLogged = isAdminLoggedIn()
         rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
-
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
 <body>
@@ -37,64 +53,46 @@ $isAdminLogged = isAdminLoggedIn()
 	<div onclick="scrollToTop()" class="scrollTop" id="scrollBtn">
 		<i class="fa-solid fa-angle-up"></i>
 	</div>
-	<!-- ===== modal starts ===== -->
-	<div class="modal-background" id="modal-background">
+    <!-- ===== modal starts ===== -->
+    <div class="modal-background" id="modal-background">
 
-		<div>
-			<div class="closeTitle">
-				<span onclick="closeModal()" class="">&times;</span>
-			</div>
-			<form id="contactForm" data-sb-form-api-token="API_TOKEN">
+        <div>
+            <div class="closeTitle">
+                <span onclick="closeModal()" class="">&times;</span>
+            </div>
+            <form id="contactForm" action="/contact.php" method="post">
+                <div class="form-floating">
+                    <input name="name" class="form-control" id="name" type="text" placeholder="Enter your name..." />
+                    <label for="name">Name</label>
 
-				<div class="form-floating">
-					<input class="form-control" id="name" type="text" placeholder="Enter your name..." data-sb-validations="required" />
-					<label for="name">Name</label>
-					<div class="invalid-feedback" data-sb-feedback="name:required">A name is required.
-					</div>
-				</div>
-				<div class="form-floating">
-					<input class="form-control" id="email" type="email" placeholder="Enter your email..." data-sb-validations="required,email" />
-					<label for="email">Email address</label>
-					<div class="invalid-feedback" data-sb-feedback="email:required">An email is
-						required.</div>
-					<div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.
-					</div>
-				</div>
-				<div class="form-floating">
-					<input class="form-control" id="phone" type="tel" placeholder="Enter your phone number..." data-sb-validations="required" />
-					<label for="phone">Phone Number</label>
-					<div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is
-						required.</div>
-				</div>
-				<div class="form-floating">
-					<textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
-					<label for="message">Message</label>
-					<div class="invalid-feedback" data-sb-feedback="message:required">A message is
-						required.</div>
-				</div>
-				<br />
-				<!-- Submit success message-->
-				<!---->
-				<!-- This is what your users will see when the form-->
-				<!-- has successfully submitted-->
-				<div class="d-none" id="submitSuccessMessage">
-					<div class="text-center mb-3">
-						<div class="fw-bolder">Form submission successful!</div>
-						To activate this form, sign up at
-						<br />
-						<a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-					</div>
-				</div>
-
-				<div class="d-none" id="submitErrorMessage">
-					<div class="text-center text-danger mb-3">Error sending message!</div>
-				</div>
-				<!-- Submit Button-->
-				<button class="btn btn-primary text-uppercase disabled" id="submitButton" type="submit">Send</button>
-			</form>
-		</div>
-	</div>
-	<!-- modal ends -->
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="email" id="email" type="email" placeholder="Enter your email..." />
+                    <label for="email">Email address</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" name="phone" id="phone" type="tel" placeholder="Enter your phone number..." />
+                    <label for="phone">Phone Number</label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" name="message" id="message" placeholder="Enter your message here..."
+                        style="height: 12rem"></textarea>
+                    <label for="message">Message</label>
+                    <div class="py-2" style="font-size: small;" id="errorMsgs"></div>
+                </div>
+                <br />
+                <div style="font-size: small;" class="py-1">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy"><u>Privacy Policy</u></a> and
+                    <a href="https://policies.google.com/terms"><u>Terms of Service</u></a> apply.
+                </div>
+                <div class="g-recaptcha my-3" data-sitekey="6Lffn8opAAAAAMv9AEWbiuPA6UVRaDILxLTPO3II" data-callback="handleRecaptchaCallback"></div>
+                <!-- Submit Button-->
+                <button class="btn btn-primary text-uppercase" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <!-- modal ends -->
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
 		<div class="container px-4 px-lg-5">
 			<a class="navbar-brand" href="/">Farzad Nosrati</a>
@@ -109,7 +107,6 @@ $isAdminLogged = isAdminLoggedIn()
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="book.php">Book</a></li>
 					<?php if (isAdminLoggedIn()): ?>
 						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/admin/">Dashboard</a></li>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="logout.php">Logout</a></li>
             		<?php endif; ?>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" onclick="message()">Contact</a></li>
 						<?php if (!isAdminLoggedIn()): ?>

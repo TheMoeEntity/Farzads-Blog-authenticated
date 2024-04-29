@@ -49,7 +49,7 @@ const getOtherPosts = () => {
                 </span>
                 <h5 class="decoration-underline">
                 <b>
-                <u><a class="text-dark" href="post.html?id=${post.id}">${post.title}</a></u>
+                <u><a class="text-dark" href="post.php?id=${post.id}">${post.title}</a></u>
                 <b>
                 </h5>
             `
@@ -276,7 +276,7 @@ if (postsContainer) {
             postElement.innerHTML = `
                     <article class="shadow-sm">
                         <h2 class="title">
-                            <a href="post.html?id=${post.id}">${post.title}</a>
+                            <a href="post.php?id=${post.id}">${post.title}</a>
                         </h2>
 
                         <div class="d-flex align-items-center">
@@ -301,7 +301,7 @@ postsArray.slice(0, 3).forEach(post => {
     const list = document.createElement('li')
     list.innerHTML = `
     <strong>
-    <a href="/post.html?id=${post.id}">${post.title}</a>
+    <a href="/post.php?id=${post.id}">${post.title}</a>
     </strong>
     `
     if (footerBlog) {

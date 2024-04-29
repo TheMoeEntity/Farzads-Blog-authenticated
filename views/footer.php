@@ -51,6 +51,7 @@
 	<!-- Core theme JS-->
 	<script src="js/scripts.js"></script>
 	<script src="js/index.js" type="module"></script>
+	<script src="js/form.js" type="module"></script>
 </body>
 
 </html>
