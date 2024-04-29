@@ -30,8 +30,18 @@ if ($recaptcha_response->success) {
     $to = 'mosesnwigberi@gmail.com';
     $subject = 'New Contact Form Submission';
     $body = "Name: $name\nEmail: $email\nPhone: $phone\nMessage: $message";
+    // Mailtrap SMTP configuration
+    $smtp_server = 'smtp.mailtrap.io';
+    $from = 'Farzad Nosrati contact form';
+    $smtp_username = 'api';
+    $smtp_password = 'bc45d2d8999074df83ca03435e898543';
+    $smtp_port = 587;
+    $headers = "From: $from\r\n";
+    $headers .= "Reply-To: $from\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
+
     echo $name;
-    if (mail($to, $subject, $body)) {
+    if (mail($to, $subject, $body, $headers, "-f$from")) {
         echo json_encode(['success' => true]);
     } else {
         echo json_encode(['error' => 'Failed to send email']);
