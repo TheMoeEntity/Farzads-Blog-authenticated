@@ -32,12 +32,12 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                    <div class="col-lg-4 mx-auto px-4" style="max-width: 100%; width:450px; min-height:450px;">
+                        <div class="auth-form-light mx-auto rounded rounded-5 shadow-lg text-left py-5 px-4 px-sm-5" >
                             <div class="brand-logo">
-                                <h3 class="h3">Admin Login</h3>
+                                <h3 class="h3 text-center"><b>Admin Login</b></h3>
                             </div>
-                            <h4>Welcome back!</h4>
+                            <h4 class="text-center">Welcome back!</h4>
                             <form class="pt-3" id="loginForm" method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
                                 <div class="form-group">
                                     <input name="username" type="text" class="form-control form-control-lg" id="username" placeholder="Username">
@@ -45,7 +45,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] === true) {
                                 <div class="form-group">
                                     <input name="password" type="password" class="form-control form-control-lg" id="password" placeholder="Password">
                                 </div>
-                                <div class="mt-3 d-flex justify-content-between">
+                                <div class="mt-3 d-flex flex-column gap-3 justify-content-between">
                                     <button type="submit" class="btn btn-block btn-primary text-white btn-lg font-weight-medium auth-form-btn">
                                         SIGN IN
                                     </button>
