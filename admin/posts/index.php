@@ -87,12 +87,12 @@ if (isset($_POST["submit"])) {
         <form action="" class="w-100" id="wysiwyg-form">
             <div class="form-group">
                 <label for="exampleInputName1">Title</label>
-                <input type="text" style="font-weight: bolder;" class="form-control" value="Farzad"
-                    id="exampleInputName1" placeholder="Name">
+                <input type="text" style="font-weight: bolder;" class="form-control" id="exampleInputName1"
+                    placeholder="Name">
             </div>
             <div class="form-group">
                 <label for="exampleInputName1">Sub Title</label>
-                <input type="text" style="font-weight: 500;" class="form-control" value="Farzad" id="exampleInputName1"
+                <input type="text" style="font-weight: 500;" class="form-control" id="exampleInputName1"
                     placeholder="Name">
             </div>
         </form>
@@ -125,10 +125,13 @@ if (isset($_POST["submit"])) {
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
-                            <form method="post" class="h-25 w-100 p-2" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                                <button style="background-color: transparent; border: none;" class="button h-25 w-100"
+                            <form method="post" action="#">
+                                <button style="background-color: transparent; border: none; " class="button w-100"
                                     name="submit" type="submit">
-                                   Logout
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-logout text-primary"></i>
+                                        Logout
+                                    </a>
                                 </button>
                             </form>
 
@@ -213,9 +216,9 @@ if (isset($_POST["submit"])) {
                                     </div>
 
 
-                                    <div class="contact-form article-comment">
+                                    <div class="contact-form article-comment" id="postComments">
                                         <h4>Leave a Reply</h4>
-                                        <form id="contact-form" id="postComments">
+                                        <form id="contact-form">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">

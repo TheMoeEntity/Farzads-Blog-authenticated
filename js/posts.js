@@ -28,7 +28,7 @@ let editorInstance;
 saveChangesBtn.addEventListener('click', async () => {
     if (editorInstance) {
         const currentContent = editorInstance.getContent();
-        let shouldPublish = post.status == 1 ? false : true
+        let shouldPublish = post.status == 0 ? false : true
         loadingOverlay.style.display = 'flex';
         const response = await updateAdminPost(1234567890, editorForm[0].value, editorForm[1].value, shouldPublish, currentContent).then((x) => x)
         if (response.status && response.status === 'success') {
@@ -121,7 +121,7 @@ const deleteComment = async (uid, commentid,) => {
 }
 const deleteAdminPost = async (uid, commentid,) => {
     loadingOverlay.style.display = 'flex';
-    if (postErrorDiv.textContent == " Are you sure you want to delete this post?") {
+    if (postErrorDiv.textContent == "Are you sure you want to delete this post?") {
         const response = await delAdminPost(uid, commentid).then((x) => x)
         if (response.status && response.status === 'success') {
             loadingOverlay.style.display = 'none';
@@ -129,7 +129,7 @@ const deleteAdminPost = async (uid, commentid,) => {
             postErrorDiv.textContent = `Post has been deleted successfully`
             setTimeout(() => {
                 window.location = '/admin'
-            }, 4500);
+            }, 2000);
         } else if (response.status && response.status !== 'success') {
             loadingOverlay.style.display = 'none';
             postErrorDiv.setAttribute('class', 'modal-body text-danger')
@@ -181,6 +181,7 @@ const updateAdminPost = async (uid, title, sub_title, publish, content) => {
     }
 };
 const mountTinyMCE = (contentToSet) => {
+
     return tinymce.init({
         selector: '#editWysiwyg',
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
@@ -347,7 +348,7 @@ const setPost = () => {
         const noComment = `<h3 id='zeroComments'>No comments yet</h3>`
         commentsContainer.innerHTML = noComment;
     }
-    document.title = 'Farzad Nosrati | Posts | ' + post.title
+    document.title = 'Farzad Nosrati | Admin Dashboard | Post preview | ' + post.title
     commentNum.textContent = `${post.comments.length} comment${post.comments.length === 1 ? '' : 's'}`
     post.comments.forEach(x => {
         setComments(x, commentsContainer)

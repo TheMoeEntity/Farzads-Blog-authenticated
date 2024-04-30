@@ -45,6 +45,28 @@ export class Helpers {
         }
         return `${month} ${format[2]}, ${format[0]}`
     }
+    static incrementTotalPosts(totalPosts, id, interval) {
+        let count = 0;
+        const totalPostsCountElement = document.getElementById(id);
+        if (totalPosts !== 0) {
+            interval = setInterval(() => {
+                count++;
+                if (totalPostsCountElement) {
+                    totalPostsCountElement.textContent = count;
+                    totalPostsCountElement.style.opacity = 1;
+                }
+
+                if (count >= totalPosts) {
+                    clearInterval(interval);
+                }
+            }, 100);
+
+
+            if (totalPostsCountElement) {
+                totalPostsCountElement.style.opacity = 0;
+            }
+        }
+    }
     static validateEmail = (email) => {
 
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -65,8 +87,8 @@ export class Helpers {
     static filterTableRows(searchTerm, tableRows) {
         searchTerm = searchTerm.toLowerCase(); // Convert search term to lowercase for case-insensitive search
         tableRows.forEach(row => {
-            const rowData = row.textContent.toLowerCase(); // Convert row content to lowercase for comparison
-            if (rowData.includes(searchTerm)) {
+            const secondCellText = row.querySelector('td:nth-child(2)').textContent.toLowerCase()
+            if (secondCellText.includes(searchTerm)) {
                 row.style.display = ''; // Show the row if it contains the search term
             } else {
                 row.style.display = 'none'; // Hide the row if it doesn't contain the search term
@@ -213,7 +235,6 @@ export class Helpers {
         const message = event.target[3].value
         let isError = false
         const validEmail = this.validateEmail(email)
-        const validPhone = this.validatePhone(phone)
         if (name.trim() === '') {
             errMessage.textContent = 'Name cannot be empty'
             errMessage.setAttribute('class', 'error text-danger')
@@ -233,6 +254,29 @@ export class Helpers {
         }
         const contactFormFields = { name, email, phone, message }
         return [isError, contactFormFields]
+
+    }
+    static validateBlogPostFields = (event, errMessage) => {
+        event.preventDefault()
+        const title = event.target[1].value
+        const sub_title = event.target[2].value
+        const content = event.target[3].value
+        let isError = false
+        if (title.trim() === '') {
+            errMessage.textContent = 'Title cannot be empty'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        } else if (sub_title.trim() === '') {
+            errMessage.textContent = 'Sub title cannot be empty'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        } else if (content.trim() === '' || content.length < 10) {
+            errMessage.textContent = 'Blog post cannot be empty or too short'
+            errMessage.setAttribute('class', 'error text-danger')
+            isError = true
+        }
+        const blogFields = { title, sub_title, content, content }
+        return [isError, blogFields]
 
     }
 }

@@ -28,6 +28,7 @@ if (isset($_POST["submit"])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -61,8 +62,8 @@ if (isset($_POST["submit"])) {
         </div>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav mr-lg-4 w-100">
-
+        <ul class="navbar-nav text-dark mr-lg-4 w-100">
+          <a href="/" class="text-dark btn"><b>Home page</b></a>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown">
@@ -128,8 +129,12 @@ if (isset($_POST["submit"])) {
                       <label for="exampleInputEmail3">Sub Title</label>
                       <input type="text" class="form-control" id="" placeholder="Enter a sub title for post">
                     </div>
+                    <div>
+                      <b id="postErrs">
+                        <span></span>
+                      </b>
+                    </div>
                     <div class="form-group">
-                      <label for="exampleTextarea1">Textarea</label>
                       <textarea class="form-control" style="outline: none;" id="exampleTextarea1" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary me-2 text-white">Publish</button>
@@ -161,7 +166,7 @@ if (isset($_POST["submit"])) {
   <script src="/admin/js/off-canvas.js"></script>
   <script src="/admin/js/hoverable-collapse.js"></script>
   <script src="/admin/js/template.js"></script>
-  <script src="/js/admin.js" type="module"></script>
+  <!-- <script src="/js/admin.js" type="module"></script> -->
   <script src="/js/create.js" type="module"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->

@@ -10,16 +10,51 @@ const modalBody = document.querySelector('#post-error')
 const adminDeleteAction = document.querySelector('#adminDeleteAction')
 const pendingComments = document.querySelector('#pendingComments')
 const updateActionBtn = document.querySelector('#updateActionBtn')
-let allComments
-let adminUpdateBtns = ''
-let adminDelBtns = ''
+const pendingPostsDashboard = document.querySelector('#pendingPostsDashboard')
+const pendingCommentsDashboard = document.querySelector('#pendingCommentsDashboard')
+const publishedPostsDashboard = document.querySelector('#publishedPostsDashboard')
+const publishedCommentsDashboard = document.querySelector('#publishedCommentsDashboard')
 let deleteType = ''
 let currentButtonID = 0
 let publishPend = ''
-
 let pendingPosts = []
 let publishedPosts = []
 let allAdminPosts = []
+let currTable = document.querySelector('#posts-table')
+document.addEventListener('DOMContentLoaded', function () {
+    function handleButtonClick(event) {
+        const target = event.target;
+        if (target.classList.contains('adminDelete')) {
+            adminDeleteAction.setAttribute("class", "btn btn-danger d-block text-white")
+            updateActionBtn.setAttribute("class", "btn btn-warning d-none text-white")
+            const type = target.getAttribute('data-type')
+            const btnID = target.getAttribute('data-btnID')
+            currentButtonID = btnID
+            console.log(type)
+            deleteType = type
+            modalBody.textContent = `Are you sure you want to delete this ${type == "comments" ? 'comment' : 'post'}?`
+            console.log('Admin Delete button clicked');
+        } else if (target.classList.contains('publishPend')) {
+            const type = target.textContent
+            console.log(type)
+            const action = target.getAttribute('data-type') === 'posts' ? 'post' : 'comment'
+            const btnID = target.getAttribute('data-btnID')
+            currentButtonID = btnID
+            deleteType = action
+            const publishText = "Do you want to publish this " + action + "?"
+            const pendingText = "Do you want to mark this " + action + " as pending?"
+            modalBody.textContent = `${type === "Publish" ? publishText : pendingText}`
+            adminDeleteAction.setAttribute("class", "btn btn-danger d-none text-white")
+            updateActionBtn.setAttribute("class", `btn ${type === "Publish" ? "btn-success" : "btn-warning"} d-block text-white`)
+            updateActionBtn.textContent = type == "Publish" ? "Publish" : "Pend"
+            console.log(type)
+            publishPend = type
+        }
+    }
+
+    document.getElementById('posts-table').addEventListener('click', handleButtonClick);
+    document.getElementById('commentsTableContainer').addEventListener('click', handleButtonClick);
+});
 const updateAdminPost = async (uid, title, sub_title, publish, content, postid) => {
     const formData = new FormData()
     formData.append('editPost', postid)
@@ -211,8 +246,24 @@ const producePostsInnerHTML = (status, comment) => {
 
 }
 let posts = await getAdminPosts().then(x => {
+    Helpers.setTableRow(x, Helpers.getDate, tableContainer, producePostsInnerHTML)
+    searchInput.addEventListener('input', () => {
+        const table = document.querySelector('#posts-table')
+        const tableRows = table.querySelectorAll('tr');
+        Helpers.filterTableRows(searchInput.value, tableRows);
+    });
     publishedPosts = x.filter(xx => xx.status == "1")
+    if (publishedPosts) {
+        publishedPostsDashboard.textContent = publishedPosts.length
+    }
     pendingPosts = x.filter(xx => xx.status == "0")
+    if (pendingPosts) {
+        pendingPostsDashboard.textContent = pendingPosts.length
+    }
+    let adminInterval
+    setTimeout(() => {
+        Helpers.incrementTotalPosts(x.length, 'totalPostsCount', adminInterval)
+    }, 750);
     allAdminPosts = x
     publishedPostsBtn.textContent = "Published (" + publishedPosts.length + ")"
     pendingPostsBtn.textContent = 'Pending (' + pendingPosts.length + ')'
@@ -242,57 +293,28 @@ if (posts.length > 0) {
     setTimeout(() => {
         loadingOverlay.style.display = 'none'
     }, 550);
-    Helpers.setTableRow(posts, Helpers.getDate, tableContainer, producePostsInnerHTML)
     await getAllComments().then(x => {
+        let commentsInterval
+        let pendingInterval
+        const filteredComments = x.comments.filter(comment => comment.status == '0')
+        const approvedComments = x.comments.filter(comment => comment.status == "1")
+        publishedCommentsDashboard.textContent = approvedComments.length
+        pendingCommentsDashboard.textContent = filteredComments.length
+        const pending = filteredComments.length + pendingPosts.length
+        setTimeout(() => {
+            Helpers.incrementTotalPosts(x.comments.length, 'totalCommentsCount', commentsInterval)
+            Helpers.incrementTotalPosts(pending, 'totalPending', pendingInterval)
+        }, 750);
         if (x.status == 'success') {
-            const filteredComments = x.comments.filter(comment => comment.status == '0')
-            allComments = filteredComments
             if (filteredComments && filteredComments.length > 0) {
                 pendingComments.setAttribute('class', 'row d-block bg-light mt-5 pt-3 d-flex flex-column gap-2')
                 Helpers.setcommentsTableRow(filteredComments, Helpers.getDate, commentsTableContainer)
-                adminDelBtns = [...document.querySelectorAll('.adminDelete')]
-                adminUpdateBtns = [...document.querySelectorAll('.publishPend')]
-                adminUpdateBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const type = btn.textContent
-                        console.log(type)
-                        const action = btn.getAttribute('data-type') === 'posts' ? 'post' : 'comment'
-                        const btnID = btn.getAttribute('data-btnID')
-                        currentButtonID = btnID
-                        deleteType = action
-                        const publishText = "Do you want to publish this " + action + "?"
-                        const pendingText = "Do you want to mark this " + action + " as pending?"
-                        modalBody.textContent = `${type === "Publish" ? publishText : pendingText}`
-                        adminDeleteAction.setAttribute("class", "btn btn-danger d-none text-white")
-                        updateActionBtn.setAttribute("class", `btn ${type === "Publish" ? "btn-success" : "btn-warning"} d-block text-white`)
-                        updateActionBtn.textContent = type == "Publish" ? "Publish" : "Pend"
-                        console.log(type)
-                        publishPend = type
-
-                    })
-                })
-                adminDelBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        adminDeleteAction.setAttribute("class", "btn btn-danger d-block text-white")
-                        updateActionBtn.setAttribute("class", "btn btn-warning d-none text-white")
-                        const type = btn.getAttribute('data-type')
-                        const btnID = btn.getAttribute('data-btnID')
-                        currentButtonID = btnID
-                        console.log(type)
-                        deleteType = type
-                        modalBody.textContent = `Are you sure you want to delete this ${type == "comments" ? 'comment' : 'post'}?`
-                    })
-                })
             }
 
             return
         }
         return []
     }).catch(() => [])
-    const tableRows = document.querySelectorAll('table tr');
-    searchInput.addEventListener('input', () => {
-        Helpers.filterTableRows(searchInput.value, tableRows);
-    });
 
 } else {
     const noPostsRow = document.createElement('tr');
@@ -308,3 +330,5 @@ adminDeleteAction.addEventListener('click', async () => {
 updateActionBtn.addEventListener('click', async () => {
     await updateAdminPostOrComment(1234567890, currentButtonID)
 })
+
+

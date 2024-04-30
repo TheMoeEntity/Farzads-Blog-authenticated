@@ -66,8 +66,10 @@ if (isset($_POST["submit"])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-warning text-white" id="updateActionBtn">Publish</button>
-                    <button id="adminDeleteAction" type="button" class="btn btn-danger text-white">Delete</button>
+                    <button type="button" class="btn btn-warning text-white d-none"
+                        id="updateActionBtn">Publish</button>
+                    <button id="adminDeleteAction" type="button"
+                        class="btn btn-danger text-white d-none">Delete</button>
                 </div>
             </div>
         </div>
@@ -145,6 +147,61 @@ if (isset($_POST["submit"])) {
                                         <h2>Welcome back, Farzad</h2>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-4 overflow-scroll">
+                        <div class="d-flex noscroll flex-column overflow-scroll flex-md-row gap-4 px-2 px-lg-3">
+                            <div
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm btn-rounded rounded rounded-5 px-5 py-5">
+                                <div class="d-flex gap-4">
+                                    <h3><i class="fas fa-pencil-alt"></i></h3>
+                                    <h3 class="">Posts</h3>
+                                </div>
+                                <span class="text-center">
+                                    <h1 class="text-behance" id="totalPostsCount">0</h1>
+                                    <h4>Blog Posts</h4>
+                                </span>
+                                <hr>
+                                <span>
+                                    <span class="text-gray">Published: <span
+                                            id="publishedPostsDashboard">0</span></span>
+                                </span>
+                            </div>
+                            <div
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-5">
+                                <div class="d-flex gap-3">
+                                    <h3><i class="far fa-comment"></i></h3>
+                                    <h3 class="">Comments</h3>
+                                </div>
+                                <span class="text-center">
+                                    <h1 class="text-behance" id="totalCommentsCount">0</h1>
+                                    <h4>Total comments</h4>
+                                </span>
+                                <hr>
+                                <span>
+                                    <span class="text-gray">Approved: <span
+                                            id="publishedCommentsDashboard">0</span></span>
+                                </span>
+                            </div>
+                            <div
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-5">
+                                <div class="d-flex gap-4">
+                                    <h3><i class="far fa-file-alt"></i></h3>
+                                    <h3 class="">Drafts</h3>
+                                </div>
+                                <span class="text-center">
+                                    <h1 class="text-dark" id="totalPending">0</h1>
+                                    <h4>Pending actions</h4>
+                                </span>
+                                <hr>
+                                <span class="d-flex flex-column gap-1">
+                                    <span class="text-gray">Posts: <span id="pendingPostsDashboard"
+                                            class="trans">0</span></span>
+                                    <span class="text-gray">Comments: <span id="pendingCommentsDashboard"
+                                            class="trans">0</span></span>
+                                </span>
                             </div>
                         </div>
                     </div>
