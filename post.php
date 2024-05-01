@@ -99,14 +99,12 @@ $isAdminLogged = isAdminLoggedIn()
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/">Home</a></li>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="about.php">About</a></li>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="book.php">Book</a></li>
-					<?php if (isAdminLoggedIn()): ?>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/admin/">Dashboard</a></li>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/">Logout</a></li>
-            		<?php endif; ?>
-
 					<li class="nav-item text-dark"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" onclick="message()">Contact</a></li>
 						<?php if (!isAdminLoggedIn()): ?>
 						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/login/">Login</a></li>
+            		<?php endif; ?>
+                    <?php if (isAdminLoggedIn()): ?>
+						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/admin/">Dashboard</a></li>
             		<?php endif; ?>
 				</ul>
 			</div>

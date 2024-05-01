@@ -105,12 +105,12 @@ if (isset($_POST["submit"])) {
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.php">About</a></li>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="book.php">Book</a></li>
-					<?php if (isAdminLoggedIn()): ?>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/admin/">Dashboard</a></li>
-            		<?php endif; ?>
-					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" onclick="message()">Contact</a></li>
+					<li class="nav-item text-dark"><a class="nav-link px-lg-3 py-3 py-lg-4" onclick="message()">Contact</a></li>
 						<?php if (!isAdminLoggedIn()): ?>
 						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login/">Login</a></li>
+            		<?php endif; ?>
+                    <?php if (isAdminLoggedIn()): ?>
+						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/admin/">Dashboard</a></li>
             		<?php endif; ?>
 				</ul>
 			</div>

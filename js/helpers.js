@@ -184,25 +184,6 @@ export class Helpers {
         }
     };
 
-    static getPosts = async () => {
-        const formData = new FormData()
-        formData.append('getPosts', '')
-        try {
-            const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await response.json();
-
-            return data.posts;
-        } catch (error) {
-            console.error(error);
-            return [];
-        } finally {
-
-        }
-
-    };
     static validateFormFields = (event, errMessage) => {
         event.preventDefault()
         const name = event.target[0].value
@@ -279,4 +260,83 @@ export class Helpers {
         return [isError, blogFields]
 
     }
+    static getPosts = async (sessionActive) => {
+        const formData = new FormData()
+        formData.append('getPosts', '')
+        try {
+            const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            if (sessionActive) {
+                return data.posts;
+            }
+            return data.posts.filter(x => x.status == "1")
+        } catch (error) {
+            console.error(error);
+            return [];
+        } finally {
+
+        }
+
+
+    };
+    static updateAdminPost = async (uid, title, sub_title, publish, content) => {
+        const formData = new FormData()
+        formData.append('editPost', id)
+        formData.append('uid', uid)
+        formData.append('title', title)
+        formData.append('sub_title', sub_title)
+        formData.append('content', content)
+        formData.append('publish', publish === true ? 1 : 0)
+        try {
+            const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+            const errorMessage = error.message || "An error occured updating comment"
+            return errorMessage;
+        }
+    };
+    static getPost = async (postid) => {
+        const formData = new FormData()
+        formData.append('getPost', postid)
+        try {
+            const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            return data.post;
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    };
+    static submitPost = async (name, email, comment, id) => {
+        const formData = new FormData()
+        formData.append('addComment', id)
+        formData.append('name', name)
+        formData.append('email', email)
+        formData.append('comment', comment)
+        formData.append('publish', 0)
+        try {
+            const response = await fetch('https://api.ikennaibe.com/farzad/comments', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            console.log(data)
+            return data.comment;
+        } catch (error) {
+            console.error(error);
+            const errorMessage = error.message || "An error occured posting your comment"
+            return errorMessage;
+        }
+    };
 }

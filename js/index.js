@@ -116,7 +116,7 @@ export const setComments = (res, container, isAdmin) => {
 
 }
 const getSinglePost = async () => {
-    const post = await getPost(id).then((x) => x)
+    const post = await Helpers.getPost(id).then((x) => x)
     singlePost = post
     if (updatePostForm) {
         let clickedButton = '';
@@ -174,86 +174,8 @@ const getSinglePost = async () => {
         })
     }
 }
-export const getPosts = async () => {
-    const formData = new FormData()
-    formData.append('getPosts', '')
-    try {
-        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
-            method: 'POST',
-            body: formData,
-        });
-        const data = await response.json();
-        if (sessionActive) {
-            return data.posts;
-        }
-        return data.posts.filter(x => x.status == "1")
-    } catch (error) {
-        console.error(error);
-        return [];
-    } finally {
 
-    }
-
-
-};
-const updateAdminPost = async (uid, title, sub_title, publish, content) => {
-    const formData = new FormData()
-    formData.append('editPost', id)
-    formData.append('uid', uid)
-    formData.append('title', title)
-    formData.append('sub_title', sub_title)
-    formData.append('content', content)
-    formData.append('publish', publish === true ? 1 : 0)
-    try {
-        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
-            method: 'POST',
-            body: formData,
-        });
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-        const errorMessage = error.message || "An error occured updating comment"
-        return errorMessage;
-    }
-};
-export const getPost = async (postid) => {
-    const formData = new FormData()
-    formData.append('getPost', postid)
-    try {
-        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
-            method: 'POST',
-            body: formData,
-        });
-        const data = await response.json();
-        return data.post;
-    } catch (error) {
-        console.error(error);
-        return [];
-    }
-};
-const submitPost = async (name, email, comment, id) => {
-    const formData = new FormData()
-    formData.append('addComment', id)
-    formData.append('name', name)
-    formData.append('email', email)
-    formData.append('comment', comment)
-    formData.append('publish', 0)
-    try {
-        const response = await fetch('https://api.ikennaibe.com/farzad/comments', {
-            method: 'POST',
-            body: formData,
-        });
-        const data = await response.json();
-        console.log(data)
-        return data.comment;
-    } catch (error) {
-        console.error(error);
-        const errorMessage = error.message || "An error occured posting your comment"
-        return errorMessage;
-    }
-};
-const data = await getPosts().then(x => {
+const data = await Helpers.getPosts(sessionActive).then(x => {
     if (loadingOverlay) {
         setTimeout(() => {
             loadingOverlay.style.display = 'none';

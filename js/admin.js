@@ -20,7 +20,6 @@ let publishPend = ''
 let pendingPosts = []
 let publishedPosts = []
 let allAdminPosts = []
-let currTable = document.querySelector('#posts-table')
 document.addEventListener('DOMContentLoaded', function () {
     function handleButtonClick(event) {
         const target = event.target;
