@@ -6,8 +6,8 @@
 					<a href="/" class="logo d-flex align-items-center">
 						<span>Farzad Nosrati</span>
 					</a>
-					<p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
-						valies.</p>
+					<!-- <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
+						valies.</p> -->
 					<div class="social-links d-flex mt-4">
 						<a href=""><i class="bi bi-twitter"></i></a>
 						<a href=""><i class="bi bi-facebook"></i></a>

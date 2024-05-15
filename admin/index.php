@@ -42,10 +42,14 @@ if (isset($_POST["submit"])) {
     <link rel="stylesheet" href="/admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="../css/admin.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="/admin/images/favicon.png" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="../css/admin.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -75,7 +79,7 @@ if (isset($_POST["submit"])) {
         </div>
     </div>
     <div class="container-scroller">
-        <!-- partial:partials/_navbar.php -->
+        <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex justify-content-center">
                 <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
@@ -118,7 +122,7 @@ if (isset($_POST["submit"])) {
         </nav>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_sidebar.php -->
+            <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
@@ -131,6 +135,12 @@ if (isset($_POST["submit"])) {
                         <a class="nav-link" href="/admin/create/">
                             <i class="mdi mdi-border-color menu-icon"></i>
                             <span class="menu-title">Create post</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/activity/">
+                            <i class="mdi mdi-border-color mdi-chart-line menu-icon"></i>
+                            <span class="menu-title">Activity</span>
                         </a>
                     </li>
                 </ul>
@@ -154,57 +164,59 @@ if (isset($_POST["submit"])) {
                     <div class="row my-4 overflow-scroll">
                         <div class="d-flex noscroll flex-column overflow-scroll flex-md-row gap-4 px-2 px-lg-3">
                             <div
-                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm btn-rounded rounded rounded-5 px-5 py-5">
-                                <div class="d-flex gap-4">
-                                    <h3><i class="fas fa-pencil-alt"></i></h3>
-                                    <h3 class="">Posts</h3>
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm btn-rounded rounded rounded-5 px-5 py-3 pt-4">
+                                <div class="d-flex gap-4 justify-content-center">
+                                    <h3><i class="fas fa-pencil-alt" style="color: #4466F3;"></i></h3>
+                                    <!-- <h3 class="">Posts</h3> -->
                                 </div>
-                                <span class="text-center">
-                                    <h1 class="text-behance" id="totalPostsCount">0</h1>
+                                <span class="text-center d-flex flex-column gap-4">
                                     <h4>Blog Posts</h4>
+                                    <h1 class="text-behance" id="totalPostsCount">0</h1>
                                 </span>
-                                <hr>
-                                <span>
+                                <span class="text-center">
                                     <span class="text-gray">Published: <span
                                             id="publishedPostsDashboard">0</span></span>
                                 </span>
+                                <!-- <hr> -->
                             </div>
                             <div
-                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-5">
-                                <div class="d-flex gap-3">
-                                    <h3><i class="far fa-comment"></i></h3>
-                                    <h3 class="">Comments</h3>
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-3 pt-4">
+                                <div class="d-flex gap-4 justify-content-center">
+                                    <h3><i class="far fa-comment" style="color: #4466F3;"></i></h3>
+                                    <!-- <h3 class="">Comments</h3> -->
                                 </div>
-                                <span class="text-center">
-                                    <h1 class="text-behance" id="totalCommentsCount">0</h1>
+                                <span class="text-center d-flex flex-column gap-4">
                                     <h4>Total comments</h4>
+                                    <h1 class="text-behance" id="totalCommentsCount">0</h1>
                                 </span>
-                                <hr>
-                                <span>
+                                <span class="d-flex flex-column gap-1 text-center">
                                     <span class="text-gray">Approved: <span
                                             id="publishedCommentsDashboard">0</span></span>
                                 </span>
+                                <!-- <hr> -->
                             </div>
                             <div
-                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-5">
-                                <div class="d-flex gap-4">
-                                    <h3><i class="far fa-file-alt"></i></h3>
-                                    <h3 class="">Drafts</h3>
+                                class="col-12 d-flex gap-4 flex-column col-md-4 col-xl-3 bg-white shadow-sm rounded rounded-5 px-5 py-3 pt-4">
+                                <div class="d-flex gap-4 justify-content-center">
+                                    <h3><i class="far fa-file-alt text-warning" style="color: #4466F3;"></i></h3>
+                                    <!-- <h3 class="">Drafts</h3> -->
                                 </div>
-                                <span class="text-center">
-                                    <h1 class="text-dark" id="totalPending">0</h1>
+                                <span class="text-center d-flex flex-column gap-4">
                                     <h4>Pending actions</h4>
+                                    <h1 class="text-warning" id="totalPending">0</h1>
+                                    <span class="d-flex flex-column gap-1">
+                                        <span class="text-gray">Posts: <span id="pendingPostsDashboard"
+                                                class="trans">0</span></span>
+                                        <span class="text-gray">Comments: <span id="pendingCommentsDashboard"
+                                                class="trans">0</span></span>
+                                    </span>
                                 </span>
-                                <hr>
-                                <span class="d-flex flex-column gap-1">
-                                    <span class="text-gray">Posts: <span id="pendingPostsDashboard"
-                                            class="trans">0</span></span>
-                                    <span class="text-gray">Comments: <span id="pendingCommentsDashboard"
-                                            class="trans">0</span></span>
-                                </span>
+                                <!-- <hr> -->
+
                             </div>
                         </div>
                     </div>
+
 
                     <div class="row bg-light pt-3 d-flex flex-column gap-2">
                         <div class="d-flex flex-column ">
@@ -225,7 +237,7 @@ if (isset($_POST["submit"])) {
                             </div>
                         </div>
                         <div class="pt-3col-md-12 stretch-card card-body bg-white table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped" id="posts-table-main">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
@@ -267,9 +279,41 @@ if (isset($_POST["submit"])) {
                             </table>
                         </div>
                     </div>
+                    <div class="row bg-light mt-5 pt-3 d-flex flex-column gap-2" id="pendingComments">
+                        <div class="d-flex flex-column ">
+                            <h4 class='mb-2 p-2 px-3'>Reserved copies</h4>
+                            <span class="text-danger p-3" id="postErrorMessage"></span>
+
+                        </div>
+                        <div class="pt-3 col-md-12 stretch-card card-body bg-white table-responsive">
+                            <table class="table table-hover table-striped noscroll">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Address </th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reservedTableContainer" class="noscroll">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row activity-dash bg-white rounded rounded-5 my-4 py-3">
+                        <h2 class="activity"><b>Latest Activity</b></h2>
+                        <ul id="activity">
+
+                        </ul>
+                        <a href="/admin/activity/" class="text-dark noUnderline px-4"><b>Show all</b></a>
+                    </div>
                 </div>
                 <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.php -->
+                <!-- partial:partials/_footer.html -->
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->
@@ -279,7 +323,8 @@ if (isset($_POST["submit"])) {
     <!-- container-scroller -->
 
     <!-- plugins:js -->
-    <script src="/admin/vendors/base/vendor.bundle.base.js"></script>
+ <!-- Include jQuery -->
+     <script src="/admin/vendors/base/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page-->
     <script src="/admin/vendors/chart.js/Chart.min.js"></script>
@@ -296,6 +341,14 @@ if (isset($_POST["submit"])) {
     <script src="/admin/js/data-table.js"></script>
     <script src="/admin/js/jquery.dataTables.js"></script>
     <script src="/admin/js/dataTables.bootstrap4.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include DataTables -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- Include DataTables Bootstrap extension -->
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
     <!-- End custom js for this page-->
     <script type="module" src="../js/admin.js"></script>
     <script src="/admin/js/jquery.cookie.js" type="text/javascript"></script>

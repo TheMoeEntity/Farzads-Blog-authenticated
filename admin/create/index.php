@@ -52,7 +52,7 @@ if (isset($_POST["submit"])) {
 
 <body>
   <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.php -->
+    <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="navbar-brand-wrapper d-flex justify-content-center">
         <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
@@ -91,7 +91,7 @@ if (isset($_POST["submit"])) {
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
-      <!-- partial:../../partials/_sidebar.php -->
+      <!-- partial:../../partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
@@ -104,6 +104,12 @@ if (isset($_POST["submit"])) {
             <a class="nav-link" href="/admin/create/">
               <i class="mdi mdi-border-color menu-icon active"></i>
               <span class="menu-title active">Create post</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/activity/">
+              <i class="mdi mdi-border-color mdi-chart-line menu-icon"></i>
+              <span class="menu-title">Activity</span>
             </a>
           </li>
         </ul>
@@ -151,7 +157,7 @@ if (isset($_POST["submit"])) {
           </div>
         </div>
         <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.php -->
+        <!-- partial:../../partials/_footer.html -->
         <!-- partial -->
       </div>
       <!-- main-panel ends -->

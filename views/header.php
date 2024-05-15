@@ -53,6 +53,49 @@ if (isset($_POST["submit"])) {
 	<div onclick="scrollToTop()" class="scrollTop" id="scrollBtn">
 		<i class="fa-solid fa-angle-up"></i>
 	</div>
+        <!-- ===== modal starts ===== -->
+    <div class="modal-background" id="reserveCopy">
+
+        <div>
+            <div class="closeTitle">
+                <span onclick="closeReserve()" class="">&times;</span>
+            </div>
+            <form id="reserveForm">
+                <div class="form-floating">
+                    <input class="form-control" id="name" type="text" placeholder="Enter your name..." />
+                    <label for="name">Name</label>
+
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="email" type="email" placeholder="Enter your email..." />
+                    <label for="email">Email address</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="phone" type="tel" placeholder="Enter your phone number..." />
+                    <label for="phone">Phone Number</label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="addresss" type="text" placeholder="Enter a shipping address..." />
+                    <label for="phone">Address</label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" id="message" placeholder="Enter your message here..."
+                        style="height: 12rem"></textarea>
+                    <label for="message">Message</label>
+                    <div class="py-2" style="font-size: small;" id="errorMsgs2"></div>
+                </div>
+                <br />
+                <div style="font-size: small;" class="py-1">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy"><u>Privacy Policy</u></a> and
+                    <a href="https://policies.google.com/terms"><u>Terms of Service</u></a> apply.
+                </div>
+                <div id="recaptcha2" class="my-3"></div>
+                <!-- Submit Button-->
+                <button class="btn btn-primary text-uppercase" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
     <!-- ===== modal starts ===== -->
     <div class="modal-background" id="modal-background">
 
@@ -106,6 +149,7 @@ if (isset($_POST["submit"])) {
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.php">About</a></li>
 					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="book.php">Book</a></li>
 					<li class="nav-item text-dark"><a class="nav-link px-lg-3 py-3 py-lg-4" onclick="message()">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog">Blog</a></li>
 						<?php if (!isAdminLoggedIn()): ?>
 						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login/">Login</a></li>
             		<?php endif; ?>

@@ -234,7 +234,7 @@ const getAllComments = async () => {
     }
 }
 const initializeDataTable = () => {
-    dataTable = $('#posts-table-main').DataTable({
+    dataTable = new DataTable(document.getElementById('posts-table-main'), {
         paging: true, // Enable pagination
         lengthChange: false, // Hide page length options
         searching: false, // Disable searching
@@ -242,6 +242,7 @@ const initializeDataTable = () => {
         pageLength: 10,
     });
 }
+
 const producePostsInnerHTML = (status, comment) => {
     switch (status) {
         case "0":
@@ -376,7 +377,7 @@ const LatestActivities = await Helpers.getActivity(1, 10, false).then(x => {
     }
 })
 const reserved = await Helpers.getReserved(1234567890).then(response => {
-    const { status, reserved:reservedCopies } = response
+    const { status, reserved: reservedCopies } = response
     if (status == 'success') {
         return reservedCopies
     } else {

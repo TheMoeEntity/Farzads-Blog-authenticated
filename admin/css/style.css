@@ -75,73 +75,7 @@
     opacity: 1;
   }
 }
-.author-bubble {
-  font-size: large;
-  color: white;
-  width: 55px;
-  height: 55px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  background-color: #3B71CA;
-  border-radius: 50%;
-  padding: 10px;
-  margin-right: 10px;
-}
-.author-bubble i {
-  font-size: 35px;
-  color:black;
-}
-.post-comment {
-  font-size: medium;
-  margin-left: 69px;
-}
 
-.post-author {
-  color: #3B71CA;
-  font-weight: bold;
-  font-size: medium;
-}
-
-.author-bubble {
-  font-size: large;
-  color: white;
-  width: 55px;
-  height: 55px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  background-color: #3B71CA;
-  border-radius: 50%;
-  padding: 10px;
-  margin-right: 10px;
-}
-
-#post-status {
-  color: white;
-  padding: 5px;
-  width: fit-content;
-  border-radius: 5px;
-  margin-right: 10px;
-  font-size: small;
-}
-
-#post-status.pending {
-  background-color: #3B71CA;
-}
-
-#post-status.published {
-  background-color: #00C853;
-}
-
-#post-status.rejected {
-  background-color: #D50000;
-}
-
-.post-added {
-  font-size: medium;
-  color: #C8C8C8;
-}
 @-webkit-keyframes flash {
   0% {
     opacity: 1;

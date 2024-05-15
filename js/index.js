@@ -229,7 +229,7 @@ export const getPost = async (postid) => {
         const data = await response.json();
         if (othersContainer) {
             if (data.post.length == 0 || data.post.status == 0) {
-                location.href = '/404.php'
+                location.href = '/404.html'
             }
         }
         return data.post;
