@@ -14,6 +14,7 @@ const content = document.querySelector('#post-content')
 const postImage = document.querySelector('#blog-image')
 const publishError = document.querySelector('#publish-error')
 let sessionActive = false
+const mainComments = document.querySelector('#comm')
 const othersContainer = document.querySelector('#others')
 let singlePost
 function getCookie(name) {
@@ -40,7 +41,7 @@ const getOtherPosts = () => {
     const others = postsArray.filter(post => post.id !== id)
     if (others) {
         otherPosts = others
-        otherPosts.forEach(post => {
+        otherPosts.slice(0, 5).forEach(post => {
             const postElement = document.createElement('div')
             postElement.setAttribute('class', 'py-3 d-flex flex-column')
             postElement.innerHTML = `
@@ -116,7 +117,7 @@ export const setComments = (res, container, isAdmin) => {
 
 }
 const getSinglePost = async () => {
-    const post = await Helpers.getPost(id).then((x) => x)
+    const post = await getPost(id).then((x) => x)
     singlePost = post
     if (updatePostForm) {
         let clickedButton = '';
@@ -174,16 +175,98 @@ const getSinglePost = async () => {
         })
     }
 }
+export const getPosts = async () => {
+    const formData = new FormData()
+    formData.append('getPosts', '')
+    try {
+        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        if (sessionActive) {
+            return data.posts;
+        }
+        return data.posts.filter(x => x.status == "1")
+    } catch (error) {
+        console.error(error);
+        return [];
+    } finally {
 
-const data = await Helpers.getPosts(sessionActive).then(x => {
+    }
+
+
+};
+const updateAdminPost = async (uid, title, sub_title, publish, content) => {
+    const formData = new FormData()
+    formData.append('editPost', id)
+    formData.append('uid', uid)
+    formData.append('title', title)
+    formData.append('sub_title', sub_title)
+    formData.append('content', content)
+    formData.append('publish', publish === true ? 1 : 0)
+    try {
+        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        const errorMessage = error.message || "An error occured updating comment"
+        return errorMessage;
+    }
+};
+export const getPost = async (postid) => {
+    const formData = new FormData()
+    formData.append('getPost', postid)
+    try {
+        const response = await fetch('https://api.ikennaibe.com/farzad/posts', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        if (othersContainer) {
+            if (data.post.length == 0 || data.post.status == 0) {
+                location.href = '/404.php'
+            }
+        }
+        return data.post;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};
+const submitPost = async (name, email, comment, id) => {
+    const formData = new FormData()
+    formData.append('addComment', id)
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('comment', comment)
+    formData.append('publish', 0)
+    try {
+        const response = await fetch('https://api.ikennaibe.com/farzad/comments', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        console.log(data)
+        return data.comment;
+    } catch (error) {
+        console.error(error);
+        const errorMessage = error.message || "An error occured posting your comment"
+        return errorMessage;
+    }
+};
+const data = await getPosts().then(x => {
     if (loadingOverlay) {
         setTimeout(() => {
             loadingOverlay.style.display = 'none';
-        }, 750);
+        }, 1000);
     }
     return x
 })
-console.log(data)
 export const getDate = (date_addeds) => {
     const postDate = date_addeds.split(' ')
     return postDate[0]
@@ -191,7 +274,6 @@ export const getDate = (date_addeds) => {
 const postsArray = data
 if (postsContainer) {
     if (postsArray.length > 0) {
-
         postsArray.slice(0, 6).forEach((post) => {
             const postElement = document.createElement('div')
             postElement.setAttribute('class', 'col-xl-4 col-lg-6 col-md-6 blog-card')
@@ -210,7 +292,7 @@ if (postsContainer) {
                         </div>
                     </article>
     `
-            postsContainer.prepend(postElement)
+            postsContainer.append(postElement)
         })
     } else {
         const noPostsElement = document.createElement('div');
@@ -245,14 +327,18 @@ const setPost = () => {
     date_added.textContent = Helpers.formatDate(getDate(singlePost.date_added))
     author.textContent = `By ${singlePost.author}`
     content.innerHTML = singlePost.content
+    content.classList.add('px-3')
     const firstChiild = content.firstChild
-    firstChiild.setAttribute('class', 'article-content px-3 py-2')
+    firstChiild.setAttribute('class', 'article-content px-1 py-2')
     if (singlePost.image) {
         const image = document.createElement('img')
         image.setAttribute('src', singlePost.image)
         image.setAttribute('class', 'img-fluid')
         image.setAttribute('alt', singlePost.title)
         postImage.appendChild(image)
+    }
+    if (singlePost.comments && singlePost.comments.length > 0) {
+        mainComments.classList.toggle('d-none')
     }
     if (sessionActive) {
         singlePost.comments.forEach(post => {
@@ -267,7 +353,6 @@ const setPost = () => {
         }
     }
     const noApprovedComments = singlePost.comments.find(comment => comment.status == 1)
-    console.log(noApprovedComments)
     if (singlePost.comments.length === 0 || noApprovedComments == undefined) {
         const noComment = `<h3 id='zeroComments'>No comments yet</h3>`
         commentsContainer.innerHTML = noComment;

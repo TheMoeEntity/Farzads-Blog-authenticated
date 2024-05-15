@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+@font-face {
+  font-family: 'aptos';
+  src: url('assets/font/aptos-font/aptos-semibold.ttf');
+}
+
 /*!
 * Start Bootstrap - Clean Blog v6.0.9 (https://startbootstrap.com/theme/clean-blog)
 * Copyright 2013-2023 Start Bootstrap
@@ -86,6 +91,104 @@
   box-sizing: border-box;
 }
 
+#notfound {
+  position: relative;
+  height: 100vh;
+}
+
+#notfound .notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.notfound {
+  max-width: 920px;
+  width: 100%;
+  line-height: 1.4;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.notfound .notfound-404 {
+  position: absolute;
+  height: 100px;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
+.notfound .notfound-404 h1 {
+  font-family: 'Maven Pro', sans-serif;
+  color: #ececec;
+  font-weight: 900;
+  font-size: 276px;
+  margin: 0px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.notfound h2 {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 46px;
+  color: #000;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0px;
+}
+
+.notfound p {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+
+.notfound a {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #189cf0;
+  display: inline-block;
+  padding: 16px 38px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+  color: #fff;
+  font-weight: 400;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+
+.notfound a:hover {
+  background-color: #fff;
+  border-color: #189cf0;
+  color: #189cf0;
+}
+
+@media only screen and (max-width: 480px) {
+  .notfound .notfound-404 h1 {
+    font-size: 162px;
+  }
+
+  .notfound h2 {
+    font-size: 26px;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
@@ -111,7 +214,7 @@
 }
 
 .wysiwyg-editor {
-  width: 37%;
+  width: 45%;
   height: 90%;
   position: fixed;
   bottom: -100%;
@@ -121,6 +224,10 @@
   background-color: #fff;
   overflow: scroll;
   transition: 0.5s;
+}
+
+.grecaptcha-badge {
+  /* visibility: hidden; */
 }
 
 .closeBtn {
@@ -144,7 +251,7 @@
     padding: 10px 0;
     width: 100%;
     height: 100%;
-    z-index:1100;
+    z-index: 1100;
 
   }
 }
@@ -573,7 +680,152 @@ legend+* {
   height: auto;
 }
 
-#modal-background {
+#one {
+  width: 100%;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, -95%);
+}
+
+#two {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 290%);
+}
+
+.farz-name {
+  text-transform: uppercase;
+  letter-spacing: 15px;
+  color: #EAE1C4;
+  font-weight: bold;
+  font-family: 'aptos', sans-serif;
+  font-size: 2rem;
+}
+
+#two button {
+  width: fit-content;
+  font-weight: bold;
+}
+
+#one h1 {
+  font-size: 7rem;
+  margin: 0;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+#one span:nth-child(2) {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+#mastheader {
+  max-height: 760px;
+}
+
+@media screen and (min-width:1025px) {
+  #mastheader {
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width:1024px) {
+  #mastheader {
+    height: auto;
+    min-height: 600px;
+  }
+
+  #one h1 {
+    font-size: 5rem;
+  }
+
+  #one h3 {
+    font-size: 2rem;
+  }
+
+  #two {
+    transform: translate(-50%, 235%);
+  }
+
+  #one {
+    transform: translate(-50%, -85%);
+  }
+
+  #one h1 {
+    font-size: 5rem;
+  }
+
+  #one h3 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width:480px) {
+  #mastheader {
+    height: auto;
+    min-height: auto;
+  }
+
+  #two button {
+    font-size: 0.8rem;
+  }
+
+  #two {
+    transform: translate(-50%, 90%);
+  }
+
+  #one {
+    transform: translate(-50%, -175%);
+  }
+
+  #one h1 {
+    font-size: 2.5rem;
+  }
+
+  #one span:nth-child(2) {
+    font-size: 1rem;
+  }
+
+  .farz-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width:320px) {
+  #one h1 {
+    font-size: 5rem;
+  }
+
+  #one h3 {
+    font-size: 2rem;
+  }
+
+  #two {
+    transform: translate(-50%, 235%);
+  }
+
+  #one {
+    transform: translate(-50%, -85%);
+  }
+
+  #one h1 {
+    font-size: 5rem;
+  }
+
+  #one h3 {
+    font-size: 2rem;
+  }
+
+  #mastheader {
+    height: auto;
+    min-height: 500px;
+  }
+}
+
+#modal-background,
+#reserveCopy {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -12601,6 +12853,27 @@ footer {
   width: 100%;
   background: #ffff;
   height: 550px;
+}
+
+#aboutHeader {
+  width: 100%;
+  height: 190px;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+#aboutHeader:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #212529;
+  opacity: 0.5;
 }
 
 #masthead:before {

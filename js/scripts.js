@@ -1,24 +1,14 @@
 const modal = document.getElementById('modal-background')
+const reserveModal = document.getElementById('reserveCopy')
 const scrollBtn = document.getElementById('scrollBtn')
-// const getPosts = async () => {
-//     const formData = new FormData()
-//     formData.append('getPosts', '')
-//     await fetch(('https://ikennaibe.com/farzad/posts'), {
-//         method: 'POST',
-//         body: formData,
-//     })
-//         .then(async response => {
-//             const data = await response.json()
-//             // console.log(data.posts)
-//             return data.posts
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             return []
-//         })
-// }
 const message = () => {
     modal.style.display = 'flex'
+}
+const reserve = () => {
+    reserveModal.style.display = 'flex'
+}
+const closeReserve = () => {
+    reserveModal.style.display = 'none'
 }
 const closeModal = () => {
     modal.style.display = 'none'

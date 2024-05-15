@@ -194,7 +194,7 @@ const mountTinyMCE = (contentToSet) => {
         file_picker_callback: (callback, value, meta) => {
             // Provide file and text for the link dialog
             // if (meta.filetype == 'file') {
-            //     callback('mypage.html', { text: 'My text' });
+            //     callback('mypage.php', { text: 'My text' });
             // }
 
             // Provide image and alt text for the image dialog

@@ -28,6 +28,7 @@ $isAdminLogged = isAdminLoggedIn()
         rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://www.google.com/recaptcha/api.js"></script>
 
 </head>
 
@@ -49,67 +50,63 @@ $isAdminLogged = isAdminLoggedIn()
                 <span onclick="closeModal()" class="">&times;</span>
             </div>
             <form id="contactForm">
+                <div class="form-floating">
+                    <input class="form-control" id="name" type="text" placeholder="Enter your name..." />
+                    <label for="name">Name</label>
 
-                <div class="form-floating">
-                    <input class="form-control" id="name" type="text" placeholder="Enter your name..."
-                        data-sb-validations="required" />
-                    <label for="name">Names</label>
-                    <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.
-                    </div>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" id="email" type="email" placeholder="Enter your email..."
-                        data-sb-validations="required,email" />
+                    <input class="form-control" id="email" type="email" placeholder="Enter your email..." />
                     <label for="email">Email address</label>
-                    <div class="invalid-feedback" data-sb-feedback="email:required">An email is
-                        required.</div>
-                    <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.
-                    </div>
                 </div>
                 <div class="form-floating">
-                    <input class="form-control" id="phone" type="tel" placeholder="Enter your phone number..."
-                        data-sb-validations="required" />
+                    <input class="form-control" id="phone" type="tel" placeholder="Enter your phone number..." />
                     <label for="phone">Phone Number</label>
-                    <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is
-                        required.</div>
                 </div>
                 <div class="form-floating">
                     <textarea class="form-control" id="message" placeholder="Enter your message here..."
-                        style="height: 12rem" data-sb-validations="required"></textarea>
+                        style="height: 12rem"></textarea>
                     <label for="message">Message</label>
-                    <div class="invalid-feedback" data-sb-feedback="message:required">A message is
-                        required.</div>
+                    <div class="py-2" style="font-size: small;" id="errorMsgs"></div>
                 </div>
                 <br />
-
-                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Send</button>
+                <div style="font-size: small;" class="py-1">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy"><u>Privacy Policy</u></a> and
+                    <a href="https://policies.google.com/terms"><u>Terms of Service</u></a> apply.
+                </div>
+                <div class="g-recaptcha my-3" data-sitekey="6Lffn8opAAAAAMv9AEWbiuPA6UVRaDILxLTPO3II"
+                    data-callback="handleRecaptchaCallback"></div>
+                <!-- Submit Button-->
+                <button class="btn btn-primary text-uppercase" type="submit">Send</button>
             </form>
         </div>
     </div>
     <!-- modal ends -->
-	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-		<div class="container px-4 px-lg-5 text-dark">
-			<a class="navbar-brand text-dark" href="/">Farzad Nosrati</a>
-			<button class="navbar-toggler text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				Menu
-				<i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto py-4 py-lg-0">
-					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/">Home</a></li>
-					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="about.php">About</a></li>
-					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="book.php">Book</a></li>
-					<li class="nav-item text-dark"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" onclick="message()">Contact</a></li>
-						<?php if (!isAdminLoggedIn()): ?>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/login/">Login</a></li>
-            		<?php endif; ?>
-                    <?php if (isAdminLoggedIn()): ?>
-						<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/admin/">Dashboard</a></li>
-            		<?php endif; ?>
-				</ul>
-			</div>
-		</div>
-	</nav>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand text-dark" href="/">Farzad Nosrati</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse text-dark navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="about.php">About</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="book.php">Book</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark"
+                            onclick="message()">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-dark" href="/blog/">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <!-- Page Header-->
     <header id="masthead" class="masthead">
         <div class="container position-relative px-4 px-lg-5">
@@ -138,6 +135,7 @@ $isAdminLogged = isAdminLoggedIn()
             </div>
         </div>
     </header>
+    
     <!-- Post Content-->
     <div class="blog-single">
         <div class="container">
@@ -155,10 +153,9 @@ $isAdminLogged = isAdminLoggedIn()
                     </article>
 
                     <!-- POST COMMENTS -->
-                    <div class="contact-form article-comment mb-5">
+                    <div id="comm" class="contact-form article-comment mb-5 d-none">
                         <h4>Comments</h4>
                         <div class="d-flex flex-column gap-4" id="get-comments">
-
                         </div>
                     </div>
 
@@ -199,77 +196,13 @@ $isAdminLogged = isAdminLoggedIn()
                     </div>
                 </div>
                 <div class="col-lg-4 m-15px-tb blog-aside">
-                    <!-- <div class="widget widget-latest-post">
-                        <div class="widget-title">
-                            <h3>Latest Post</h3>
-                        </div>
-                        <div class="widget-body">
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Blog title 1</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Blog Author
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Blog title 1</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Blog Author
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="latest-post-aside media">
-                                <div class="lpa-left media-body">
-                                    <div class="lpa-title">
-                                        <h5><a href="#">Blog title 1</a></h5>
-                                    </div>
-                                    <div class="lpa-meta">
-                                        <a class="name" href="#">
-                                            Blog Author
-                                        </a>
-                                        <a class="date" href="#">
-                                            26 FEB 2020
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="lpa-right">
-                                    <a href="#">
-                                        <img src="https://www.bootdey.com/image/400x200/FFB6C1/000000" title="" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                     <!-- End Latest Post -->
                     <div class="px-3 mt-5 d-flex flex-column gap-y-2" id="others">
                         <h3>Other Posts</h3>
 
+                    </div>
+                    <div class="px-3 ">
+                        <a href="/blog"><b>View all</b></a>
                     </div>
 
                 </div>
@@ -282,7 +215,7 @@ $isAdminLogged = isAdminLoggedIn()
         <div class="container footer-top">
             <div class="row gy-4">
                 <div class="col-lg-4 col-md-12 footer-about">
-                    <a href="/" class="logo d-flex align-items-center">
+                    <a href="index.php" class="logo d-flex align-items-center">
                         <span>Farzad Nosrati</span>
                     </a>
                     <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
@@ -298,11 +231,10 @@ $isAdminLogged = isAdminLoggedIn()
                 <div class="col-lg-4 md:ml-5 col-6 col-md-4 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">The Book</a></li>
-
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about.php">About us</a></li>
+                        <li><a href="/book.php">The Book</a></li>
+                        <li><a href="/blog/">Blog</a></li>
                     </ul>
                 </div>
 
@@ -322,6 +254,7 @@ $isAdminLogged = isAdminLoggedIn()
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
     <script src="js/index.js" type="module"></script>
+    <script src="js/form.js" type="module"></script>
 </body>
 
 </html>

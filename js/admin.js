@@ -14,42 +14,55 @@ const pendingPostsDashboard = document.querySelector('#pendingPostsDashboard')
 const pendingCommentsDashboard = document.querySelector('#pendingCommentsDashboard')
 const publishedPostsDashboard = document.querySelector('#publishedPostsDashboard')
 const publishedCommentsDashboard = document.querySelector('#publishedCommentsDashboard')
+const activity = document.querySelector('#activity')
+const reservedTableContainer = document.querySelector('#reservedTableContainer')
+let dataTable;
 let deleteType = ''
 let currentButtonID = 0
 let publishPend = ''
 let pendingPosts = []
 let publishedPosts = []
 let allAdminPosts = []
-document.addEventListener('DOMContentLoaded', function () {
-    function handleButtonClick(event) {
-        const target = event.target;
-        if (target.classList.contains('adminDelete')) {
-            adminDeleteAction.setAttribute("class", "btn btn-danger d-block text-white")
-            updateActionBtn.setAttribute("class", "btn btn-warning d-none text-white")
-            const type = target.getAttribute('data-type')
-            const btnID = target.getAttribute('data-btnID')
-            currentButtonID = btnID
-            console.log(type)
-            deleteType = type
-            modalBody.textContent = `Are you sure you want to delete this ${type == "comments" ? 'comment' : 'post'}?`
-            console.log('Admin Delete button clicked');
-        } else if (target.classList.contains('publishPend')) {
-            const type = target.textContent
-            console.log(type)
-            const action = target.getAttribute('data-type') === 'posts' ? 'post' : 'comment'
-            const btnID = target.getAttribute('data-btnID')
-            currentButtonID = btnID
-            deleteType = action
-            const publishText = "Do you want to publish this " + action + "?"
-            const pendingText = "Do you want to mark this " + action + " as pending?"
-            modalBody.textContent = `${type === "Publish" ? publishText : pendingText}`
-            adminDeleteAction.setAttribute("class", "btn btn-danger d-none text-white")
-            updateActionBtn.setAttribute("class", `btn ${type === "Publish" ? "btn-success" : "btn-warning"} d-block text-white`)
-            updateActionBtn.textContent = type == "Publish" ? "Publish" : "Pend"
-            console.log(type)
-            publishPend = type
-        }
+let dataForTable = allAdminPosts
+let currTable = document.querySelector('#posts-table')
+const columns = [
+    { data: 'ID' },
+    { data: 'Title' },
+    { data: 'Status' },
+    { data: 'Date' },
+    { data: 'Comments' },
+    { data: 'Actions' }
+]
+function handleButtonClick(event) {
+    const target = event.target;
+    if (target.classList.contains('adminDelete')) {
+        adminDeleteAction.setAttribute("class", "btn btn-danger d-block text-white")
+        updateActionBtn.setAttribute("class", "btn btn-warning d-none text-white")
+        const type = target.getAttribute('data-type')
+        const btnID = target.getAttribute('data-btnID')
+        currentButtonID = btnID
+        console.log(type)
+        deleteType = type
+        modalBody.textContent = `Are you sure you want to delete this ${type == "comments" ? 'comment' : 'post'}?`
+        console.log('Admin Delete button clicked');
+    } else if (target.classList.contains('publishPend')) {
+        const type = target.textContent
+        console.log(type)
+        const action = target.getAttribute('data-type') === 'posts' ? 'post' : 'comment'
+        const btnID = target.getAttribute('data-btnID')
+        currentButtonID = btnID
+        deleteType = action
+        const publishText = "Do you want to publish this " + action + "?"
+        const pendingText = "Do you want to mark this " + action + " as pending?"
+        modalBody.textContent = `${type === "Publish" ? publishText : pendingText}`
+        adminDeleteAction.setAttribute("class", "btn btn-danger d-none text-white")
+        updateActionBtn.setAttribute("class", `btn ${type === "Publish" ? "btn-success" : "btn-warning"} d-block text-white`)
+        updateActionBtn.textContent = type == "Publish" ? "Publish" : "Pend"
+        console.log(type)
+        publishPend = type
     }
+}
+document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('posts-table').addEventListener('click', handleButtonClick);
     document.getElementById('commentsTableContainer').addEventListener('click', handleButtonClick);
@@ -220,7 +233,15 @@ const getAllComments = async () => {
         return null
     }
 }
-
+const initializeDataTable = () => {
+    dataTable = $('#posts-table-main').DataTable({
+        paging: true, // Enable pagination
+        lengthChange: false, // Hide page length options
+        searching: false, // Disable searching
+        info: false, // Hide table information
+        pageLength: 10,
+    });
+}
 const producePostsInnerHTML = (status, comment) => {
     switch (status) {
         case "0":
@@ -245,7 +266,9 @@ const producePostsInnerHTML = (status, comment) => {
 
 }
 let posts = await getAdminPosts().then(x => {
+    loadingOverlay.style.display = 'none'
     Helpers.setTableRow(x, Helpers.getDate, tableContainer, producePostsInnerHTML)
+    document.getElementById('posts-table').addEventListener('click', handleButtonClick);
     searchInput.addEventListener('input', () => {
         const table = document.querySelector('#posts-table')
         const tableRows = table.querySelectorAll('tr');
@@ -270,10 +293,18 @@ let posts = await getAdminPosts().then(x => {
     publishedPostsBtn.onclick = (e) => {
         e.target.setAttribute('class', 'btn active-tab')
         allPostsBtn.setAttribute('class', 'btn')
+        // dataTable.clear()
+        // dataTable.data = Helpers.formatIncomingData(publishedPosts)
+        // dataForTable.columns = columns
+        // dataTable.draw();
         pendingPostsBtn.setAttribute('class', 'btn')
         Helpers.setTableRow(publishedPosts, Helpers.getDate, tableContainer, producePostsInnerHTML)
     }
     pendingPostsBtn.onclick = (e) => {
+        // dataTable.clear()
+        // dataTable.data = Helpers.formatIncomingData(pendingPosts)
+        // dataForTable.columns = columns
+        // dataTable.draw();
         e.target.setAttribute('class', 'btn active-tab')
         allPostsBtn.setAttribute('class', 'btn')
         publishedPostsBtn.setAttribute('class', 'btn')
@@ -283,15 +314,18 @@ let posts = await getAdminPosts().then(x => {
         e.target.setAttribute('class', 'btn active-tab')
         publishedPostsBtn.setAttribute('class', 'btn')
         pendingPostsBtn.setAttribute('class', 'btn')
+        // dataTable.clear()
+        // dataTable.data = Helpers.formatIncomingData(allAdminPosts)
+        // dataForTable.columns = columns
+        // dataTable.draw();
         Helpers.setTableRow(x, Helpers.getDate, tableContainer, producePostsInnerHTML)
     }
+    initializeDataTable()
     return x
 });
 
 if (posts.length > 0) {
-    setTimeout(() => {
-        loadingOverlay.style.display = 'none'
-    }, 550);
+
     await getAllComments().then(x => {
         let commentsInterval
         let pendingInterval
@@ -308,6 +342,7 @@ if (posts.length > 0) {
             if (filteredComments && filteredComments.length > 0) {
                 pendingComments.setAttribute('class', 'row d-block bg-light mt-5 pt-3 d-flex flex-column gap-2')
                 Helpers.setcommentsTableRow(filteredComments, Helpers.getDate, commentsTableContainer)
+                document.getElementById('commentsTableContainer').addEventListener('click', handleButtonClick);
             }
 
             return
@@ -331,3 +366,26 @@ updateActionBtn.addEventListener('click', async () => {
 })
 
 
+const LatestActivities = await Helpers.getActivity(1, 10, false).then(x => {
+    if (x.status == 'success') {
+        const { log } = x
+        const activities = log.slice(0, 10)
+        return activities
+    } else {
+        return []
+    }
+})
+const reserved = await Helpers.getReserved(1234567890).then(response => {
+    const { status, reserved:reservedCopies } = response
+    if (status == 'success') {
+        return reservedCopies
+    } else {
+        return []
+    }
+})
+if (reserved && reserved.length > 0) {
+    Helpers.setReservedTable(reserved, reservedTableContainer)
+}
+if (LatestActivities && LatestActivities.length > 0) {
+    Helpers.setActivities(LatestActivities, activity)
+}
